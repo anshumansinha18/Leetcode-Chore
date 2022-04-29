@@ -1,48 +1,41 @@
 class Solution {
 public:
     
-    void max_heapify(vector<int>&nums, int n, int i)
-    {
-        int left = 2*i+1;
-        int right = 2*i+2;
-        int largest;
-        
-        if(left<n && nums[left]>nums[i])
-            largest = left;
-        else
-            largest = i;
-        
-        if(right<n && nums[right]>nums[largest])
-            largest = right;
-        
-        if(largest!=i)
+    int partition(vector<int>& arr, int low, int high){
+        int pivot = arr[high];
+        int i=low-1;
+        for(int j=low;j<high;j++)
         {
-            swap(nums[i], nums[largest]);
-            
-            max_heapify(nums, n, largest);
+            if(arr[j]<pivot)
+            {
+                i++;
+                swap(arr[i], arr[j]);
+            }
         }
+        
+        swap(arr[i+1], arr[high]);
+        return i+1;
     }
     
-    int build_heap(vector<int>& nums, int n, int k)
-    {
-        for(int i=n/2-1;i>=0;i--)
-            max_heapify(nums, n, i);
+    void quickSelect(vector<int>& arr, int low, int high,int n, int k){
+        if(low>=high)
+            return;
         
-        int i=n;
-        int t = k;
-        while(k>0 && i>0)
-        {
-            swap(nums[0], nums[i-1]);
-            i--;
-            max_heapify(nums, i, 0);
-            k--;
-        }
+        int pivotIndex = partition(arr, low, high);
+        if((n-k)>pivotIndex)
+            quickSelect(arr, pivotIndex+1, high, n, k);
+        else if((n-k)<pivotIndex)
+            quickSelect(arr, low, pivotIndex-1, n, k);
+        else
+            return;
         
-        return nums[n-t];
     }
+        
     
     int findKthLargest(vector<int>& nums, int k) {
         
-        return build_heap(nums, nums.size(), k);
+       quickSelect(nums, 0, nums.size()-1, nums.size(), k); 
+        
+        return nums[nums.size()-k];
     }
 };
