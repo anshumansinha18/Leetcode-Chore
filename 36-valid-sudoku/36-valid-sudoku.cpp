@@ -1,54 +1,35 @@
 class Solution {
 public:
-    bool isValidSudoku(vector<vector<char>>& board) {
-        bool isRowUnique = true;
-        bool isColUnique = true;
-        bool isBoxUnique = true;
+     bool isValidSudoku(vector<vector<char>>& board) {
 
-
-        map<char, int> m;
+        set<string> s;
         for(int i=0;i<9;i++)
         {
-            m.clear();
             for(int j=0;j<9;j++)
             {
-                if(board[i][j]!='.') m[board[i][j]]++;
-                if(m[board[i][j]]>1){
-                    return false;
+                if(board[i][j]!='.') {
+                    int boxno = i / 3 * 3 + j / 3;
+                    string row = "r", col = "c", box = "b";
+
+                    row += char(i + '0');
+                    row += char(board[i][j]);
+
+                    col += char(j + '0');
+                    col += char(board[i][j]);
+
+                    box += char(boxno + '0');
+                    box += char(board[i][j]);
+
+                    if (s.empty() || (s.find(row) == s.end() && s.find(col) == s.end() && s.find(box) == s.end())) {
+                        s.insert(row);
+                        s.insert(col);
+                        s.insert(box);
+                    } else
+                        return false;
                 }
             }
-        }
-
-
-        m.clear();
-        for(int j=0;j<9;j++)
-        {
-            m.clear();
-            for(int i=0;i<9;i++)
-            {
-                if(board[i][j]!='.') m[board[i][j]]++;
-                if(m[board[i][j]]>1)
-                    return false;
-            }
 
         }
-
-        for(int i=0;i<9;i+=3)
-        {
-            for(int j=0;j<9;j+=3)
-            {
-                m.clear();
-                for(int k=i;k<=i+2;k++)
-                {
-                    for(int l=j;l<=j+2;l++)
-                    {
-                        if(board[k][l]!='.') m[board[k][l]]++;
-                        if(m[board[k][l]]>1)
-                            return false;
-                    }
-                }
-            }
-        }
-        return true;
+           return true;
     }
 };
