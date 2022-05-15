@@ -9,4 +9,5 @@ else l++;
 ​
 Time Complexity: O(26n)
 ​
-*2. Optimized Sliding Window Approach:*
+*2. Optimized Sliding Window Approach:*  Use maxf = max(maxf, ++count[s[i]]);
+Time Complexity: O(n)
