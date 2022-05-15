@@ -8,16 +8,16 @@ public:
         unordered_map<int, int> m;
         int res=0;
         
-        while(j<n && i<n && i<=j)
+        while(j<n)
         {
             if(m[s[j]]==0)
             {
                 m[s[j]]++;
                 j++;
+                res = max(res, (j-i));
             }
             else
             {
-                res = max(res, (j-i));
                 while(s[i]!=s[j] && i<n){
                     m[s[i]]--;
                     i++;
@@ -26,7 +26,7 @@ public:
                 i++;
               }
         }
-        res = max(res, (j-i));
+        
         return res;
     }
 };
