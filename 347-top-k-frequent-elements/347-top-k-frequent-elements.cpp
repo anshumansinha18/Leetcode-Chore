@@ -8,20 +8,22 @@ public:
             m[nums[i]]++;
         
         
+          vector<vector<int>> v(nums.size()+1);
         
-        multimap<int, int> m1;
-        for(auto it: m)
-            m1.insert(pair<int, int>(it.second, it.first));
-        
+          for(auto it: m){
+              v[it.second].push_back(it.first);
+          }
         
         vector<int> res;
         
-        for(auto it = m1.rbegin();k>0;it++)
+        for(int i=v.size()-1;i>=0;i--)
         {
-            res.push_back(it->second);
-            k--;
+            if(!v[i].empty())
+            for(int j=0;j<v[i].size();j++){
+                if(k>0 ) res.push_back(v[i][j]);
+                k--;  
+            }
         }
-        
-        return res;
+              return res;
     }
 };
