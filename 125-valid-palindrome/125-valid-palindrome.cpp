@@ -1,45 +1,49 @@
 class Solution {
 public:
-    bool isAlphaNumeric(char c)
-{
-    return ((c>='0' && c<='9') || (c>='A' && c<='Z') || (c>='a' && c<='z'));
-}
-
-char toLowerCase(char c)
-{
-    if(c>='A' && c<='Z')
-        c = (char)(c + 32);
-    return c;
-}
-bool isPali(string s)
-{
-    int start = 0;
-    int end = s.length()-1;
-    while(start<end)
+    
+    bool isAlphanumeric(char c)
     {
-        if(s[start]!=s[end])
-            return false;
-        start++;
-        end--;
+        return (c>='0' && c<='9') || (c>='a' && c<='z') || (c>='A' && c<='Z');
     }
-
-    return true;
-}
-bool isPalindrome(string s) {
-    int n = s.length();
-
-
-   string s1;
-    for(int i=0;i<n;i++)
+    
+ 
+    bool isUppercase(char c)
     {
-        if(isAlphaNumeric(s[i]))
+        return (c>='A' && c<='Z');
+    }
+    
+    bool checkPalindrome(string p)
+    {
+        int start = 0;
+        int end = p.size()-1;
+        
+        while(start<end)
         {
-            s[i] = toLowerCase(s[i]);
-            s1.push_back(s[i]);
+            if(p[start++]!=p[end--])
+                return false;
         }
+        
+        return true;
     }
-
-    return isPali(s1);
-
-}
+    
+    bool isPalindrome(string s) {
+          
+        string p;
+        
+        int n = s.size();
+        
+        for(int i=0;i<n;i++)
+        {
+            if(isAlphanumeric(s[i]))
+            {
+                if(isUppercase(s[i]))
+                    s[i] = char(s[i]+32);
+                
+                p.push_back(s[i]);
+            }
+        }
+        cout<<p<<endl;
+        bool x = checkPalindrome(p);
+        return x;
+    }
 };
