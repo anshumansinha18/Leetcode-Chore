@@ -1,44 +1,44 @@
 class Solution {
 public:
     int trap(vector<int>& height) {
-       int n = height.size();
         
-        vector<int> max_left(n);
-        vector<int> max_right(n);
+        int n = height.size();
+        int l=0;
+        int r = n-1;
         
-        for(int i=0;i<n;i++)
+        int max_left = height[0];
+        int max_right = height[n-1];
+        
+        int sum=0;
+        while(l<r)
         {
-            if(i==0) max_left[i] = 0;
+            if(max_left<=max_right)
+            {
+                l++;
+                if(l>=r) break;
+                int w = min(max_left, max_right) - height[l]; cout<<w<<" ";
+                if(w<0) w=0;
+                
+                sum = sum + w;
+                if(height[l]>max_left)
+                    max_left = height[l];
+                
+                
+            }
             else
             {
-                if(height[i-1]>max_left[i-1])
-                    max_left[i] = height[i-1];
-                else
-                    max_left[i] = max_left[i-1];
+                r--;
+                if(l>=r) break;
+                int w = min(max_left, max_right) - height[r];
+                if(w<0) w=0;
+                
+                sum = sum + w;
+                if(height[r] > max_right)
+                    max_right = height[r];
             }
         }
         
-        for(int i=n-1;i>=0;i--)
-        {
-            if(i==n-1) max_right[i]=0;
-            
-            else{
-                if(height[i+1]>max_right[i+1])
-                    max_right[i] = height[i+1];
-                else
-                    max_right[i] = max_right[i+1];
-            }
-        }
+        return sum;
         
-        int res=0;
-        for(int i=0;i<n;i++)
-        {
-            int min_height = min(max_left[i], max_right[i]);
-            
-            int additive = min_height >= height[i] ? min_height-height[i]:0;
-            res = res + additive;
-        }
-        
-        return res;
     }
 };
