@@ -10,31 +10,28 @@ public:
         int max_right = height[n-1];
         
         int sum=0;
-        while(l<r)
+        while(l<=r)
         {
             if(max_left<=max_right)
             {
-                l++;
-                if(l>=r) break;
-                int w = min(max_left, max_right) - height[l]; cout<<w<<" ";
+                int w = min(max_left, max_right) - height[l];
                 if(w<0) w=0;
                 
                 sum = sum + w;
                 if(height[l]>max_left)
                     max_left = height[l];
-                
+                l++;
                 
             }
             else
             {
-                r--;
-                if(l>=r) break;
                 int w = min(max_left, max_right) - height[r];
                 if(w<0) w=0;
                 
                 sum = sum + w;
                 if(height[r] > max_right)
                     max_right = height[r];
+                r--;
             }
         }
         
