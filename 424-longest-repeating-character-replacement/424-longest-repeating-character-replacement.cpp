@@ -1,32 +1,47 @@
 class Solution {
 public:
     
-  
-    int characterReplacement(string s, int k) {
+    int findMax(vector<int> v)
+    {
+        int maxim = 0;
         
-        int i=0,j=0;
+        for(int i=0;i<v.size();i++)
+            maxim = max(maxim, v[i]);
+        
+        return maxim;
+    }
+    
+    int characterReplacement(string s, int k) {
         int n = s.length();
-        int res=0;
-        unordered_map<int, int> m;
-        int maxf=0;
-        while(j<n)
+        
+        int l=0,r=0;
+        vector<int> v(27, 0);
+        int max_len = 1;
+        while(r<n)
         {
-            maxf = max(maxf, ++m[s[j]]);
-            int wl = j-i+1;
-            if(wl-maxf<=k)
+            v[int(s[r] - 65)]++;
+            
+            int len = r-l+1;
+            
+            int maxim = findMax(v);
+            int pos = len - maxim;
+            
+            if(pos<=k)
             {
-                res = max(res, wl);
-                j++;
+                max_len = max(max_len, len);
+                r++;
             }
             else
             {
-                m[s[i]]--;
-                i++;
-                m[s[j]]--;
+                v[int(s[l]-65)]--;
+                v[int(s[r]-65)]--;
+                l++;
             }
+            
+            
         }
         
-        return res;
+        return max_len;
         
     }
 };
