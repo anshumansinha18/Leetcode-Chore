@@ -1,55 +1,85 @@
 class Solution {
 public:
     
-    bool check(vector<int> v1, vector<int> v2)
+    bool check(vector<int> m1, vector<int> m2)
     {
-         for(int i=0;i<256;i++)
+            for(int i=0;i<256;i++)
             {
-             if(v1[i]>0)
-                if((v2[i]-v1[i])<0)
-                    return false; 
+                if(m1[i]>0)
+                {
+                    if(m1[i]>m2[i])
+                        return false;
+                }
+                    
             }
-        return true;  
+        return true;
     }
+    
     string minWindow(string s, string t) {
         
-        int n1 = s.length();
-        int n2 = t.length();
+        int n1 = s.size();
+        int n2= t.size();
+        string res="";
         
-        vector<int> v1(256, 0);
-        vector<int> v2(256, 0);
-        
-        for(int i=0;i<n2;i++)
-            v1[t[i]]++;
+        if(n1<n2)
+            return res;
         
         int l=0;
-        int r = 0;
-        int res=INT_MAX;
+        int r=0;
         
-        int pointer1=0;
-        int pointer2=0;
+        vector<int> m1(256, 0);
+        vector<int> m2(256, 0);
         
-        while(r<=n1)
+        for(int i=0;i<n2;i++)
+            m1[t[i]]++;
+        
+        while(r<n2)
         {
-           if(check(v1, v2)){
-               if((r-l)<res){
-                   res = min(res, r-l);
-                   pointer1 = l;
-                   pointer2 = r;
-               }
-               v2[s[l]]--;
-               l++;
-           }
-            else
+           m2[s[r]]++;
+            r++;
+        }
+        
+        int min_len=INT_MAX;
+        int len=0;
+        int ans1=-1;
+        int ans2=-1;
+        if(check(m1, m2)){
+            len=r-l;
+            if(len<min_len)
             {
-                v2[s[r]]++;
-                r++;
+                ans1=l;
+                ans2=r-1;
+                min_len = len;
             }
         }
-        string p = "";
-        for(int i=pointer1;i<pointer2;i++)
-            p = p+s[i];
         
-        return p;
+        while(r<n1)
+        {
+            m2[s[r]]++;
+            if(!check(m1, m2))
+            {
+                r++;
+            }
+            else
+            {
+                len = r-l+1;
+                if(len<min_len)
+                {
+                    ans1=l;
+                    ans2=r;
+                    min_len = len;
+                }
+                m2[s[l]]--;
+                l++;
+                m2[s[r]]--;
+            }
+        }
+        
+        if(ans1==-1 || ans2 == -1) return "";
+        for(int i=ans1;i<=ans2;i++)
+            res += s[i];
+        
+        return res;
+        
     }
 };
