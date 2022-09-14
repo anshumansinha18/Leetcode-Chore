@@ -1,54 +1,44 @@
 class MinStack {
-    int *arr;
-    int topi;
     int size;
-    int* min_pos;
-    int i;
-    int minima;
+    int *arr;
+    int *min_stack;
+    int topi;
 public:
     MinStack() {
-        topi=-1;
-        size = 300001;
+        size = 30000;
+        topi = -1;
         arr = new int[size];
-        i=-1;
-        minima = topi;
-        min_pos = new int[size];
+        min_stack = new int[size];
     }
     
     void push(int val) {
         if(topi==size-1)
             return;
-        topi++;
-        arr[topi] = val;
         
-        if(minima == -1 || val < arr[minima])
-        {
-            minima = topi;
-            i++;
-            min_pos[i] = minima;
-        }
+        topi++;
+        if(topi!=0 && min_stack[topi-1]<val)
+            min_stack[topi] = min_stack[topi-1];
+        else
+            min_stack[topi] = val;
+        
+        arr[topi] = val;
     }
     
     void pop() {
-        if(topi==-1)
+        if(topi == -1)
             return;
         
         topi--;
-        if(minima > topi)
-        {
-            i--;
-            minima =  topi==-1?topi:min_pos[i];
-        }
-        
-        
     }
     
     int top() {
+      
         return arr[topi];
     }
     
     int getMin() {
-        return arr[minima];
+     
+        return min_stack[topi];
     }
 };
 
