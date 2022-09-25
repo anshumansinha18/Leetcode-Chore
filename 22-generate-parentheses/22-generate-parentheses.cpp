@@ -9,19 +9,10 @@ public:
             return;
         }
         
-        if(open<n)
-        {
-            if(open>close)
-            {
-                funct(s+'(', open+1, close, res, n);
-                funct(s+')', open, close+1, res, n);
-                
-            }
-            else
-                funct(s+'(', open+1, close, res, n);
-        }
-        else
-            funct(s+')', open, close+1, res, n);
+        if(open<n) 
+             funct(s+'(', open+1, close, res, n);
+            
+        if(open>close) funct(s+')', open, close+1, res, n);
         
         
     }
