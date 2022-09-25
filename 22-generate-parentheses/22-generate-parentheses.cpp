@@ -13,29 +13,15 @@ public:
         {
             if(open>close)
             {
-                s+='(';
-                open++;
-                funct(s, open, close, res, n);
-                s.pop_back();
-                open--;
-                s+=')';
-                close++;
-                funct(s, open, close, res, n);
+                funct(s+'(', open+1, close, res, n);
+                funct(s+')', open, close+1, res, n);
                 
             }
             else
-            {
-                s+='(';
-                open++;
-                funct(s, open, close, res, n);
-            }
+                funct(s+'(', open+1, close, res, n);
         }
         else
-        {
-            s+=')';
-            close++;
-            funct(s, open, close, res, n);
-        }
+            funct(s+')', open, close+1, res, n);
         
         
     }
