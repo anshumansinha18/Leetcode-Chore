@@ -40,8 +40,6 @@ public:
         {
             if(isEmpty())
                 push(s[i]);
-            else if(s[i]=='(' || s[i]=='[' || s[i]=='{')
-                push(s[i]);
             else if(s[i]==')' && peek()=='(')
                 pop();
             else if(s[i]==']' && peek()=='[')
