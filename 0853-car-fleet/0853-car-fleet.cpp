@@ -14,33 +14,16 @@ public:
         
         double time;
         
-        for(int i=n-1;i>=0;i--)
+        for(int i=n-1;i>=0;i--)   
         {
-            if(st.empty())
-            {
-                st.push(position[i]);
-                double t = (target - position[i])/(double)m[position[i]];
-                time = t;
-                cout<<"first"<<endl;
-            }
-            else
-            {
-                st.push(position[i]);
-                double t = (target - position[i])/(double)m[position[i]];
-                cout<<"second"<<endl;
-                if(time>=t){
+            st.push(position[i]);
+            double t = (target - position[i])/(double)m[position[i]];
+           
+                if(time>=t)
                     st.pop();
-                     cout<<"second"<<endl;
-                }
-                
                 else
-                    time = t;
-                // cout<<"yes";
-            }
+                    time = t;        
         }
-        
-   
-        
         
         return st.size();
     }
