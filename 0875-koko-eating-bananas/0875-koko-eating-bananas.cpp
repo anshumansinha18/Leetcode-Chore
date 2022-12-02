@@ -1,45 +1,43 @@
 class Solution {
 public:
     
-    int findMax(vector<int>& piles){
-        int largest = INT_MIN;
-        for(int i=0;i<piles.size();i++)
+    int binarySearch(vector<int>& piles, int low, int high, int h){
+        
+        int ans = INT_MAX;
+        int mid;
+        while(low<=high)
         {
-            largest = max(piles[i], largest);
+            mid = low+(high-low)/2;
+            
+            long long int sum_hours = 0;
+            
+            for(int i=0;i<piles.size();i++)
+                sum_hours += ceil(piles[i]*1.0/mid);
+            
+            
+            if(sum_hours<=h){
+                high = mid-1;
+                ans = min(ans, mid);
+            }
+            else{
+                low = mid+1;
+            }
+        
         }
         
-        return largest;
+        return ans;
     }
     
-    
     int minEatingSpeed(vector<int>& piles, int h) {
+         
+        int max_el = INT_MIN;
         
-        int largest = findMax(piles);
+        int n = piles.size();
         
+        for(int i=0;i<n;i++)
+           max_el = max(max_el, piles[i]);
+    
         
-        int l = 1;
-        int r = largest;
-        int minK = INT_MAX;
-        while(l<=r)
-        {
-            int mid = l + (r-l)/2;
-            long long int sum=0;
-            for(int i=0;i<piles.size();i++)
-            {
-                sum += ceil(1.0*piles[i]/mid);
-            }
-            
-            if(sum<=h)
-            {
-                minK = min(mid, minK);
-                r = mid-1;
-            }
-            else
-                l = mid+1;
-            
-        }
-        
-        return l;
-        
+        return binarySearch(piles, 1, max_el, h);
     }
 };
