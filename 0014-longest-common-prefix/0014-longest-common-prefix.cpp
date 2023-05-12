@@ -40,7 +40,7 @@ public:
             cout<<strs[i]<<" ";
         }
        
-        while(i<strs[0].size() && i<strs[n-1].size() && strs[0][i]==strs[n-1][i]){
+        while(i<strs[0].size() && strs[0][i]==strs[n-1][i]){
             res+=strs[0][i];
             i++;
         }
