@@ -1,25 +1,48 @@
-#include <bits/stdc++.h>
-
 class Solution {
 public:
-    string longestCommonPrefix(vector<string>& strs) {
+    
+    int partition(vector<string>&strs, int low, int high){
         
-        int min_size = INT_MAX;
-        int n = strs.size();
+        int i=low-1;
+        string pivot = strs[high];
         
-        for(int i=0;i<n;i++){
-            min_size = min(min_size, (int)strs[i].size());
+        for(int j=low;j<high;j++){
+            if(strs[j]<pivot){
+                i++;
+                swap(strs[i], strs[j]);
+            }
+            
         }
         
-        string res = "";
+        swap(strs[i+1], strs[high]);
+        return i+1;
+    }
+    
+    void quickSort(vector<string>& strs, int low, int high){
+        if(low>=high){
+            return;
+        }
         
-        for(int i=0;i<min_size;i++){
-            for(int j=0;j<n-1;j++){
-                if(strs[j][i]!=strs[j+1][i]){
-                    return res;
-                }
-            }
-            res += strs[0][i];
+        int pivotIndex = partition(strs, low, high);
+        quickSort(strs, low, pivotIndex-1);
+        quickSort(strs, pivotIndex+1, high);
+    }
+    
+    string longestCommonPrefix(vector<string>& strs) {
+        
+        int n = strs.size();
+        
+        quickSort(strs, 0, n-1);
+        string res="";
+        int i=0;
+        
+        for(int i=0;i<n;i++){
+            cout<<strs[i]<<" ";
+        }
+       
+        while(i<strs[0].size() && i<strs[n-1].size() && strs[0][i]==strs[n-1][i]){
+            res+=strs[0][i];
+            i++;
         }
         
         return res;
