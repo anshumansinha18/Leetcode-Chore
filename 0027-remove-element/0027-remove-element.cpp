@@ -12,8 +12,6 @@ public:
             }
         }
         
-        for(int i=0;i<n;i++)
-            cout<<nums[i]<<" ";
         
         return i+1;
     }
