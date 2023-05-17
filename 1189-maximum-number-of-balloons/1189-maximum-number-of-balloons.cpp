@@ -12,27 +12,25 @@ public:
         
         int n = text.size();
         unordered_map<char, int> m;
-        vector<int> vec(5);
-        
         m['b']=0;
-        m['a']=1;
-        m['l']=2;
-        m['o']=3;
-        m['n']=4;
-        
+        m['a']=0;
+        m['l']=0;
+        m['o']=0;
+        m['n']=0;
         for(int i=0;i<n;i++){
             if(isBalloon(text[i])){
-                vec[m[text[i]]]++;
+                m[text[i]]++;
             }
         }
        
         int res=INT_MAX;
-         vec[2]/=2;
-        vec[3]/=2;
         
-        for(int i=0;i<5;i++){
-            if(res>vec[i])
-                res=vec[i];
+        m['l']/=2;
+        m['o']/=2;
+        
+        for(auto& it: m){
+            if(res>it.second)
+                res = it.second;
         }
         
         return res;
