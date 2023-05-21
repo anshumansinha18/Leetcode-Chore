@@ -1,29 +1,44 @@
-class MyHashMap {
-public:
-    int *arr;
-    MyHashMap() {
-        this->arr = new int[1000001];
-        for(int i=0;i<1000001;i++)
-            arr[i]=-1;
+class HashNode{
+public: int data;
+    HashNode *next;
+
+
+    HashNode(int value){
+        this->data = value;
+        this->next= nullptr;
     }
-    
-    void put(int key, int value) {
-        arr[key] = value;
-    }
-    
-    int get(int key) {
-        return arr[key];
-    }
-    
-    void remove(int key) {
-        arr[key]=-1;
-    }
+
+
 };
 
-/**
- * Your MyHashMap object will be instantiated and called as such:
- * MyHashMap* obj = new MyHashMap();
- * obj->put(key,value);
- * int param_2 = obj->get(key);
- * obj->remove(key);
- */
+
+
+class MyHashMap {
+
+    HashNode** arr;
+public:
+    MyHashMap() {
+        arr = new HashNode*[1000001];
+        for(int i=0;i<1000001;i++){
+            arr[i] = NULL;
+        }
+    }
+
+    void put(int key, int value) {
+        HashNode *node = new HashNode(value);
+
+        arr[key] = node;
+    }
+
+    int get(int key) {
+
+       if(arr[key]==NULL)
+           return -1;
+       else return arr[key]->data;
+    }
+
+    void remove(int key) {
+  
+      arr[key] = nullptr;
+    }
+};
