@@ -76,11 +76,10 @@ public:
          } else {
              if (curr->key == key) {
                  prev->next = curr->next;
-                 curr = curr->next;
              } else {
                  prev = curr;
-                 curr = curr->next;
              }
+             curr = curr->next;
          }
      }
 
