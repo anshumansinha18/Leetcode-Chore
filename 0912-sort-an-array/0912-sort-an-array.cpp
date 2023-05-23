@@ -1,48 +1,50 @@
 class Solution {
 public:
     
-    void max_heapify(vector<int>& nums, int n, int i)
-{
-    int left = 2*i+1;
-    int right = 2*i+2;
-    int largest;
-    if(left<n && nums[left]>nums[i])
-        largest = left;
-    else
-        largest =i;
+    void merge(vector<int>&arr, int low, int mid, int high){
+    int n1 = mid-low+1;
+    int n2 = high-(mid+1)+1;
 
-    if(right<n && nums[right]>nums[largest])
-        largest = right;
+    vector<int> leftArr(n1);
+    vector<int> rightArr(n2);
 
-    if(largest!=i)
-    {
-        swap(nums[i], nums[largest]);
-
-        max_heapify(nums, n, largest);
+    for(int i=0;i<n1;i++){
+        leftArr[i]=arr[low+i];
     }
-}
-    
-    void build_heap(vector<int>& nums, int n)
-{
-    for(int i = n/2-1;i>=0;i--)
-        max_heapify(nums, n, i);
+    for(int i=0;i<n2;i++)
+        rightArr[i]=arr[mid+1+i];
 
-    
-    int i=n;
-   
-    while(i>0)
-    {
-       
-        swap(nums[i-1], nums[0]);
-        i--;
-        max_heapify(nums, i, 0);
-        
-    }
-    
+    int i=0;
+    int j=0;
+    int k = low;
+
+    while(i<n1 && j<n2)
+        if(leftArr[i]<=rightArr[j])
+            arr[k++]=leftArr[i++];
+        else
+            arr[k++]=rightArr[j++];
+
+    while(i<n1)
+        arr[k++]=leftArr[i++];
+    while(j<n2)
+        arr[k++]=rightArr[j++];
 }
+
+
+void mergeSort(vector<int>& arr, int low, int high){
+    if(low>=high){
+        return;
+    }
+
+    int mid = low + (high-low)/2;
+    mergeSort(arr, low, mid);
+    mergeSort(arr, mid+1, high);
+    merge(arr, low, mid, high);
+}
+
     
     vector<int> sortArray(vector<int>& nums) {
-        build_heap(nums, nums.size());
+        mergeSort(nums, 0, nums.size()-1);
         return nums;
     }
 };
