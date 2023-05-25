@@ -3,14 +3,17 @@ public:
     long long interchangeableRectangles(vector<vector<int>>& rectangles) {
         
         int n = rectangles.size();
-        unordered_map<double, int> m;
-        
+        map<pair<int, int>, int> m;
+        long long sum=0;
         for(int i=0;i<n;i++){
-                double x = (double)rectangles[i][0]/rectangles[i][1];
-                m[x]++;
+               int gcd = __gcd(rectangles[i][0], rectangles[i][1]);
+            
+                   
+                   m[make_pair(rectangles[i][0]/gcd, rectangles[i][1]/gcd)]++;
         }
         
-        long long sum=0;
+      
+        
         for(auto it: m){
             long long x = it.second;
             x--;
