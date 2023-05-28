@@ -46,12 +46,10 @@ string largestNumber(vector<int>& nums) {
 
    for(int i=arr.size()-1;i>=0;i--)
        res+=arr[i];
-      int flag=0;
-   for(int i=0;i<res.size();i++){
-       if(res[i]!='0')
-           flag=1;
-   }
-   if(flag==0) res="0";
+ 
+    if(res[0]=='0')
+        return "0";
+   
 return res;
 
 }
