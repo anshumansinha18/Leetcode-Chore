@@ -2,30 +2,22 @@ class Solution {
 public:
     bool validPalindrome(string s) {
         
-        int i=0;
-        int j=s.size()-1;
+        int i1=0;
+        int j1=s.size()-1;
         int n = s.size();
         int count=1;
         bool res=true;
         
-       while(i<j && s[i]==s[j]){
-           i++;
-           j--;
-       }
+       while(i1<j1 && s[i1]==s[j1])  i1++,j1--;
         
-        int tempI = i;
-        int tempJ = j;
-       while(i<j && s[i]==s[j-1]){
-           i++;
-           j--;
+        int i2 = i1, j2=j1;
+        
+       while(i1<j1 && s[i1]==s[j1-1]) i1++,j1--;
        
-       }
-        while(tempI<tempJ && s[tempI+1]==s[tempJ]){
-            tempI++;
-            tempJ--;
-        }
+        while(i2<j2 && s[i2+1]==s[j2]) i2++,j2--;
         
-       if(i>=j || tempI>=tempJ)
+        
+       if(i1>=j1 || i2>=j2)
            return true;
         else return false;
         
