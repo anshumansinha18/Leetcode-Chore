@@ -3,7 +3,7 @@ public:
     
     void compare(vector<vector<int>> &res, vector<int> a, vector<int> b){
         
-        if(a[1]<b[0] || a[0]>b[1]){
+        if(a[1]<b[0]){
             res.push_back(b);
         }else{
             res[res.size()-1][0]=min(a[0], b[0]);
