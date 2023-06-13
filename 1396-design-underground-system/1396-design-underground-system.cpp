@@ -24,10 +24,11 @@ public:
             vector<double> vec = {1.0, t-(double)checkedIn[id].second};
             average[p] = vec;
         }else{
-            average[p][1] *= average[p][0];
+            double oldAvg = average[p][0]*average[p][1];
             average[p][0]++;
-            average[p][1] += (t-checkedIn[id].second);
-            average[p][1] /= average[p][0];
+            double newAvg = ((t-checkedIn[id].second)+oldAvg)/average[p][0];
+           
+            average[p][1] = newAvg;
         }
         // checkedIn.erase(id);
     }
