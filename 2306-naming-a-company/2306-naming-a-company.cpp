@@ -7,15 +7,7 @@ public:
         
         for(int i=0;i<ideas.size();i++)
             vec[ideas[i][0]-97][ideas[i].substr(1)]++;
-        
-        
-//         for(int i=0;i<vec.size();i++){
-//             for(int j=0;j<vec[i].size();j++){
-//                 cout<<vec[i][j]<<" ";
-//             }
-//             cout<<endl;
-//         }
-        
+
         long long count=0;
         
         for(int i=0;i<25;i++){
