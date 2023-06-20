@@ -11,9 +11,8 @@ public:
             if((long long)nums[i]*(i-j+1) <= sum+k){
                 max_f = max(max_f, i-j+1);
             }else{
-                sum-= (nums[i]+nums[j]);
+                sum-=nums[j];
                 j++;
-                i--;
             }
         }
         
