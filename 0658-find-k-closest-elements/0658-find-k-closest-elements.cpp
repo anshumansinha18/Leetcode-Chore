@@ -3,27 +3,37 @@ public:
     
     int findIndex(vector<int>& arr, int x){
        
-        int n=arr.size();
-        
-        int index = n-1;
-        int i=0;
-        while(i<n){
-            if(x<=arr[i]){
-                index = i;
-                break;
-            }
-            i++;
-        }
-        
-        if(arr[index]!=x && index-1>=0){
-           int a=arr[index-1];
-           int b=arr[index];
+         int low=0;
+        int high=arr.size()-1;
+        int n = arr.size();
+        int index=0;
+        int mid;
+        while(low<=high){
+             mid = low + (high-low)/2;
             
-           if(abs(a-x)<abs(b-x) || (abs(a-x)==abs(b-x) && a<b))
-               index--;
+            if(arr[mid] == x){
+                return mid;
+            }
+               
+            else if(x>arr[mid]){
+                low=mid+1;
+            }
+            else
+                high=mid-1;
         }
-        cout<<index<<endl;
-        return index;
+        
+        cout<<low<<high<<endl;
+        
+        if(low>=0 && low<=n-1 && high>=0 && high<=n-1){
+            int a = arr[low];
+            int b = arr[high];
+             if((abs(a-x) < abs(b-x)) || (abs(a-x) == abs(b-x) && a<b))
+                 return low;
+            else return high;
+        }else if(high>=0 && high<=n-1){
+            return high;
+        }else return low;
+        
     }
     
     vector<int> findClosestElements(vector<int>& arr, int k, int x) {
