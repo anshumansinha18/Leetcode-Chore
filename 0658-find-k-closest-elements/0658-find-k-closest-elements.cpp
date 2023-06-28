@@ -14,22 +14,22 @@ public:
             else high=mid-1;
         }
         
-        return mid;
+        return low;
     }
     vector<int> findClosestElements(vector<int>& arr, int k, int x) {
         
         int index = binarySearch(arr, x);
         cout<<index<<endl;
-        int low;
-        int high;
+        int low=index-1;
+        int high=index;
         
-        if(index<=(arr.size()-1)/2){
-            low=index;
-            high=index+1;
-        }else{
-            low=index-1;
-            high=index;
-        }
+        // if(index<=(arr.size()-1)/2){
+        //     low=index;
+        //     high=index+1;
+        // }else{
+        //     low=index-1;
+        //     high=index;
+        // }
         cout<<low<<" "<<high<<endl;
         vector<int> res;
         while(low>=0 && high<=arr.size()-1 && k>0){
