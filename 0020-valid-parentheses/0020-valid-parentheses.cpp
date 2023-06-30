@@ -1,59 +1,28 @@
 class Solution {
 public:
-    int size;
-    int top;
-    char *arr;
     
-    void initializeStack(int size)
-    {
-        this->size = size;
-        top = -1;
-        arr = new char[size];
+    bool isMatching(stack<int> &st, char c){
+        if(c=='}' && st.top()=='{'){
+            return true;
+        }else if(c==')' && st.top()=='(')
+            return true;
+        else if(c==']' && st.top()=='[')
+            return true;
+        else return false;
     }
-    
-    void push(int data){
-        if(top+1==size)
-            return;
-        top++;
-        arr[top] = data;
-    }
-    
-    void pop(){
-        if(top==-1)
-            return;
-        top--;
-    }
-    
-    char peek(){
-        return arr[top];
-    }
-    
-    bool isEmpty(){
-        return top==-1;
-    }
-    
     bool isValid(string s) {
         
-        initializeStack(10001);
         
-        for(int i=0;i<s.size();i++)
-        {
-            if(isEmpty())
-                push(s[i]);
-            else if(s[i]==')' && peek()=='(')
-                pop();
-            else if(s[i]==']' && peek()=='[')
-                pop();
-            else if(s[i]=='}' && peek()=='{')
-                pop();
-            else
-                push(s[i]);
+        int i=0;
+        stack<int> st;
+        while(i<s.size()){
+            
+            if(!st.empty() && isMatching(st, s[i])){
+                st.pop();
+            }else st.push(s[i]);
+            i++;
         }
         
-        
-        if(isEmpty())
-            return true;
-        else
-            return false;
+        return st.empty();
     }
 };
