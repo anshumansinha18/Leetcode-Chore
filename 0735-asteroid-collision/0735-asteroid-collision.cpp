@@ -7,17 +7,18 @@ public:
         int i=0;
         while(i<n){
             if(!st.empty() && asteroids[i]<0 && st.top()>0){
-                if(abs(asteroids[i])>st.top())
+                if(abs(asteroids[i])>st.top()){
                     st.pop();
+                    continue;
+                }
                 else if(abs(asteroids[i])==st.top()){
                     st.pop();
-                    i++;
-                }else i++;
+                }
             }
             else {
                 st.push(asteroids[i]);
-                i++;
             }
+            i++;
         }
         
         while(!st.empty()){
