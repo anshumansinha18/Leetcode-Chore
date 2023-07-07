@@ -31,10 +31,11 @@ string decodeString(string s) {
     stack<string> st;
     for(int i=0;i<n;i++){
         if(s[i]==']'){
-            stack<string> st1;
+            // stack<string> st1;
+            string str="";
             //removing alphabets;
             while(!st.empty() && st.top()!="["){
-                st1.push(st.top());
+                str = st.top()+str;
                 st.pop();
             }
             if(!st.empty()) st.pop();
@@ -45,11 +46,11 @@ string decodeString(string s) {
                 st.pop();
             }
 
-            string str="";
-            while(!st1.empty()){
-                str+=st1.top();
-                st1.pop();
-            }
+            // string str="";
+            // while(!st1.empty()){
+            //     str+=st1.top();
+            //     st1.pop();
+            // }
 //            cout<<num<<" XXX"<<str<<endl;
             num = reverse(num);
              st.push(repeat(str, num));
