@@ -14,26 +14,16 @@ public:
         stack<int> st;
       
         for(int k=0;k<n;k++){
-            if(k<2){
-                if(!st.empty()){
-                    st.push(k);
-                }else{
-                    while(!st.empty() && nums[k]>nums[st.top()]){
-                        st.top();
-                    }
-                    st.push(k);
-                }
-            }else{
+                //for k>=2
                 while(!st.empty() && nums[k]>=nums[st.top()])
                     st.pop();
                 
-                if(!st.empty() && minArr[st.top()]<nums[k]){
+                if(k>=2 && !st.empty() && minArr[st.top()]<nums[k]){
                     return true;
                 }
                 
                 st.push(k);
             }
-        }
         return false;
     }
 };
