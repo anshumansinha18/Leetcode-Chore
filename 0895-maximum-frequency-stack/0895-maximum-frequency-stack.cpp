@@ -1,6 +1,6 @@
 class FreqStack {
-    map<int, stack<int>> m;
-    map<int, int> freq;
+    unordered_map<int, stack<int>> m;
+    unordered_map<int, int> freq;
     int maxFreq;
 public:
     
