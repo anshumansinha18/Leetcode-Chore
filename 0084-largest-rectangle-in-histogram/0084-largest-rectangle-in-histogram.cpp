@@ -37,15 +37,7 @@ public:
         vector<int> nseL = generateNSELeft(heights);
         
         int n = heights.size();
-        
-        // for(int i=0;i<n;i++){
-        //     cout<<nseR[i]<<" ";
-        // }
-        // cout<<endl;
-        // for(int i=0;i<n;i++){
-        //     cout<<nseL[i]<<" ";
-        // }
-        // return 0;
+ 
         int maxArea=0;
         for(int i=0;i<n;i++){
             maxArea = max((nseR[i]-nseL[i]-1)*heights[i], maxArea);
