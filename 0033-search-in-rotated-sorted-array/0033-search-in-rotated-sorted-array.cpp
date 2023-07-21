@@ -1,61 +1,39 @@
 class Solution {
 public:
     
-    int findPivot(vector<int>& nums){
-        
+    int findPivot(vector<int>&nums){
         int low=0;
-        int high = nums.size()-1;
-        int res=low;
-
-        if(nums[low]<=nums[high])
-           return res;
-
-        while(low<=high){
-            int mid=low+(high-low)/2;
-
-            if(nums[mid]>nums[mid+1])
-             {
-                 res=mid+1;
-                 break;
-             }
-            else if(nums[mid-1]>nums[mid])
-             { 
-                 res=mid;
-                 break;
-             }
-            else if(nums[low]<=nums[mid])
-               low=mid+1;
+        int high=nums.size()-1;
+        
+        while(low<high){
+            int mid = low+(high-low)/2;
+            
+            if(nums[low]<=nums[mid] && nums[low]>nums[high])
+                low=mid+1;
             else
-               high=mid-1;
+                high=mid;
         }
-
-        return res;
-
+        
+        return low;
     }
-
+    
     int search(vector<int>& nums, int target) {
         
         int pivot = findPivot(nums);
+        // cout<<pivot;
+        int n = nums.size();
         int low=pivot;
-        int n=nums.size();
-        int high=pivot+(n-1);
-        int res=-1;
-
-        while(low<=high){
-            int mid=low+(high-low)/2;
-
-            if(nums[mid%n]==target)
-              { 
-                 res=mid%n;
-                 break;
-              }
-            else if(target > nums[mid%n]){
+        int high = low+(n-1);
+        
+        while(low<high){
+            int mid = low+(high-low)/2;
+            
+            if(target>nums[mid%n]){
                 low=mid+1;
-            }
-            else
-               high=mid-1;
+            }else
+                high=mid;
         }
-        return res;
-
+        
+        return nums[low%n]==target?low%n:-1;
     }
 };
