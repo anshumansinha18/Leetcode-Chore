@@ -1,31 +1,38 @@
 class TimeMap {
-public:
      unordered_map<string, vector<pair<int, string>>> m;
+public:
     TimeMap() {
+        
     }
     
     void set(string key, string value, int timestamp) {
-        m[key].push_back({timestamp, value});
+        m[key].push_back(make_pair(timestamp, value));
     }
     
     string get(string key, int timestamp) {
-        vector<pair<int, string>>& v = m[key];
+       
+        if(m.find(key)==m.end()) return "";
         int low=0;
-        int high = v.size()-1;
-        string res="";
-
-        while(low<=high){
+        int high=m[key].size()-1;
+        while(low<high){
             int mid = low+(high-low)/2;
-            if(v[mid].first<=timestamp){
-                res=v[mid].second;
-                low=mid+1; 
-            }
-            else{
-                high=mid-1;
-            }
+            
+            if(timestamp>m[key][mid].first)
+                low=mid+1;
+            else
+                high=mid;
         }
-
-        return res;
+       
+        cout<<low<<endl;
+        if(m[key][low].first<=timestamp){
+            return m[key][low].second;
+        }
+        else if(low>0)
+            return m[key][low-1].second;
+        else
+            return "";
+            
+       
     }
 };
 
