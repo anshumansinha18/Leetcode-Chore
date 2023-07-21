@@ -1,27 +1,21 @@
 class Solution {
 public:
-    
-    int binarySearch(vector<int>& nums){
+    int findMin(vector<int>& nums) {
+        
+        int n = nums.size();
+        
         int low=0;
-        int high=nums.size()-1;
+        int high=n-1;
+        
         while(low<high){
-            cout<<"s";
-            if(nums[low]<nums[high]) return low;
             int mid = low+(high-low)/2;
             
-            if(nums[low]<=nums[mid])
+            if(nums[low]<=nums[mid] && nums[low]>nums[high])
                 low=mid+1;
             else
                 high=mid;
-            
         }
         
-        return low;
-    }
-    
-    int findMin(vector<int>& nums) {
-        
-        int mid = binarySearch(nums);
-        return nums[mid];
+        return nums[low];
     }
 };
