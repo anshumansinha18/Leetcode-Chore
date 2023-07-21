@@ -18,14 +18,13 @@ public:
         if(nums[low]!=target) return res;
         else res[0]=low;
         
-        low=0;
         high=n-1;
         
-        while(low<=high){
+        while(low<high){
             int mid=ceil(low+(high-(double)low)/2);
             
             if(target>=nums[mid])
-                low=mid+1;
+                low=mid;
             else
                 high=mid-1;
         }
