@@ -9,22 +9,44 @@
  * };
  */
 class Solution {
+    
+    ListNode* calcMid(ListNode* head){
+        ListNode* fast=head;
+        ListNode* slow=head;
+        
+        while(fast!=nullptr && fast->next!=nullptr){
+            fast=fast->next->next;
+            slow=slow->next;
+        }
+        
+        return slow;
+    }
 public:
     void reorderList(ListNode* head) {
           if(head==nullptr || head->next==nullptr || head->next->next==nullptr)
               return;
         
-          ListNode* p=nullptr, *t=nullptr, *c=head;
-        while(c->next!=t){
-            p=c;
-            c=c->next;
-            ListNode* x=p;
-            while(x->next!=t)
-                x=x->next;
-            t=x;
-            p->next=t;
-            t->next=c;
-        }
-        c->next=nullptr;
+         stack<ListNode*> st;
+        
+         ListNode *it = head;
+         while(it!=nullptr){
+             st.push(it);
+             it=it->next;
+         }
+          
+          ListNode *next = head->next;
+          ListNode *curr= head;
+          while(curr->next->next!=curr){
+            
+              curr->next=st.top();
+              curr=next;
+              st.top()->next = curr;
+              next=next->next;
+              st.pop();
+          }
+        
+       curr->next=nullptr;
+        
+        
     }
 };
