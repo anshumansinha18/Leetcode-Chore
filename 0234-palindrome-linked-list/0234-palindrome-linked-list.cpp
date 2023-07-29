@@ -35,7 +35,6 @@ public:
         
         
         while(head!=nullptr){
-            cout<<head->val<<" "<<revHead->val<<endl;
             if(head->val!=revHead->val)
                 return false;
             head=head->next;
