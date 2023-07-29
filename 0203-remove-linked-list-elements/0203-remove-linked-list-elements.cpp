@@ -37,7 +37,6 @@ public:
         while(temp!=nullptr){
             if(temp->val==val){
                 //if val is present at head
-                // prev=temp;
                 if(head==temp){
                     deleteHead(head, temp);
                 }else if(temp->next==nullptr){
