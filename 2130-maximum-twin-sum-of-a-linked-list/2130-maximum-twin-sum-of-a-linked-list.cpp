@@ -11,33 +11,37 @@
 class Solution {
 public:
     
-    ListNode* calcMid(ListNode* head){
-        ListNode* fast=head, *slow=head;
-        while(fast!=nullptr && fast->next!=nullptr){
+    ListNode *findMid(ListNode* head){
+        ListNode* slow=head,*fast=head;
+        while(fast && fast->next){
             fast=fast->next->next;
             slow=slow->next;
         }
         return slow;
     }
+    
+    ListNode* reverseList(ListNode* head){
+        ListNode* prev=nullptr;
+        while(head){
+            ListNode* ahead=head->next;
+            head->next=prev;
+            prev=head;
+            head=ahead;
+        }
+        head=prev;
+        return head;
+    }
     int pairSum(ListNode* head) {
-        ListNode* mid = calcMid(head);
-        ListNode* it=mid;
-        cout<<mid->val;
+           ListNode* mid=findMid(head);
         int res=0;
-        stack<ListNode*> st;
+        ListNode* end = reverseList(mid);
+        ListNode* start=head;
         
-        while(it!=nullptr){
-            st.push(it);
-            it=it->next;
+        while(end){
+            res=max(start->val+end->val, res);
+            start=start->next;
+            end=end->next;
         }
-        
-        it=head;
-        while(!st.empty()&& it!=mid){
-            res=max(it->val+st.top()->val, res);
-            it=it->next;
-            st.pop();
-        }
-        
         return res;
         
     }
