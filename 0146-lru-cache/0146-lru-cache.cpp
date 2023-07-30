@@ -45,22 +45,19 @@ public:
     }
 
     void put(int key, int value) {
-        if(curr_size<capacity){
-            if(m.find(key)!=m.end()){
-                deleteNode(head, tail, m[key]);
-            }
-            else curr_size++;
-        }else{
-             if(m.find(key)!=m.end()){
-                deleteNode(head, tail, m[key]);
-            }else{
+        
+        if(m.find(key)!=m.end())
+            deleteNode(head, tail, m[key]);
+        else
+            curr_size++;
+        
+        insertAtHead(head, tail, key, value);
+        m[key]=head;
+        if(curr_size>capacity){
             m.erase(tail->data);
             deleteNode(head, tail, tail);
-             }
-
+            curr_size--;
         }
-        insertAtHead(head, tail, key, value);
-        m[key] = head;
     }
 
     void insertAtHead(Node* &head,Node* &tail, int data, int value){
