@@ -1,6 +1,8 @@
 class LFUCache {
     map<int,  list<pair<int, int>>> m;
-    unordered_map<int, int> mp;
+    unordered_map<int, pair<int, int>> mp;
+    //first = freq,
+    //second = value,
     int capacity;
     int curr_size;
 public:
@@ -15,7 +17,7 @@ public:
         }
 
         int result;
-        for(auto it= m[mp[key]].begin();it!=m[mp[key]].end();it++){
+        for(auto it= m[mp[key].first].begin();it!=m[mp[key].first].end();it++){
             if((*it).first==key)
                 result=(*it).second;
         }
@@ -33,7 +35,7 @@ public:
 
         if(mp.find(key)!=mp.end()){
             int result;
-            for(auto it= m[mp[key]].begin();it!=m[mp[key]].end();it++){
+            for(auto it= m[mp[key].first].begin();it!=m[mp[key].first].end();it++){
                 if((*it).first==key)
                     result=(*it).second;
             }
@@ -52,15 +54,14 @@ public:
         }
         if(mp.find(key)==mp.end()) {
             m[1].push_front(make_pair(key, value));
-            mp[key] = 1;
+            mp[key].first = 1;
         }
 
     }
     void makeMostFrequent(int key, int value, int updatedValue){
-        m[mp[key]].remove(make_pair(key, value));
-        if(m[mp[key]].size()==0) m.erase(mp[key]);
-        mp[key]++;
-        m[mp[key]].push_front(make_pair(key, updatedValue));
+        m[mp[key].first].remove(make_pair(key, value));
+        if(m[mp[key].first].size()==0) m.erase(mp[key].first);
+        mp[key].first++;
+        m[mp[key].first].push_front(make_pair(key, updatedValue));
     }
 };
-
