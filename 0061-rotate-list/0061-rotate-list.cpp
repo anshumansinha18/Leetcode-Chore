@@ -10,64 +10,33 @@
  */
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head){
-        ListNode* curr=head;
-        ListNode* prev=nullptr;
-        while(curr){
-            ListNode* ahead = curr->next;
-            curr->next=prev;
-            prev=curr;
-            curr=ahead;
-        }
-        head=prev;
-        return head;
-    }
-    
-    int findLength(ListNode* head){
-        int count=0;
-        while(head){
+       int findLength(ListNode* &tail){
+        int count=1;
+        while(tail->next){
             count++;
-            head=head->next;
+           tail=tail->next;
         }
-        
+
         return count;
-    }
-    
-    ListNode* findPoint(ListNode* head, int k){
-        ListNode* L = head;
-        ListNode* R = head;
-        
-        int x=0;
-        while(R->next){
-            if(x>=k){
-                L=L->next;
-            }
-            R=R->next;
-            x++;
-        }
-        
-        return L;
     }
     ListNode* rotateRight(ListNode* head, int k) {
         if(head==nullptr || head->next==nullptr) return head;
-        int length = findLength(head);
         
+           ListNode* tail=head;
+        int length=findLength(tail);
         k=k%length;
-        
-        ListNode* breakPoint = findPoint(head, k);
-        
-        ListNode* lhead=head;
-        ListNode* rhead=breakPoint->next;
-        
-        breakPoint->next=nullptr;
-        
-        ListNode* reversedLHead= reverseList(lhead);
-        ListNode* reversedRHead = reverseList(rhead);
-        
-        lhead->next = reversedRHead;
-        
-        
-        return reverseList(reversedLHead);
+        if(k==0) return head;
+        int count=1;
+        ListNode* curr=head;
+        while(count<length-k){
+            curr=curr->next;
+            count++;
+        }
+     
+        ListNode* newHead=curr->next;
+        curr->next=nullptr;
+        tail->next=head;
+        return newHead;
         
     }
 };
