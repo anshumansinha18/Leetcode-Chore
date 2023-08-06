@@ -10,31 +10,50 @@
  */
 class Solution {
 public:
-    ListNode* mergeKLists(vector<ListNode*>& lists) {
-        ListNode* dummy=new ListNode();
-        ListNode* x=dummy;
-        while(true){
-            ListNode* smallest = nullptr;
-            int small=INT_MAX;
-            int n=lists.size();
-            for(int i=0;i<n;i++){
-                if(lists[i] && lists[i]->val<small){
-                    small=lists[i]->val;
-                    smallest=lists[i];
-                }
+    
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2){
+        ListNode* dummy = new ListNode();
+        
+        ListNode* x= dummy;
+        while(l1 && l2){
+            if(l1->val<l2->val){
+                x->next=l1;
+                l1=l1->next;
+            }else{
+                x->next=l2;
+                l2=l2->next;
             }
-            
-            if(smallest==nullptr) break;
-            x->next=smallest;
             x=x->next;
-            
-            for(int j=0;j<n;j++){
-                if(lists[j]==smallest){
-                    lists[j]=lists[j]->next;
-                    break;
-                }
-            }
         }
+        
+        while(l1){
+            x->next=l1;
+            l1=l1->next;
+            x=x->next;
+        }
+        
+        while(l2){
+            x->next=l2;
+            l2=l2->next;
+            x=x->next;
+        }
+        
         return dummy->next;
+    }
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+    
+        int n = lists.size();
+        if(n==0) return nullptr;    
+        while(n>1){
+            
+            for(int i=0;i< (n/2);i++){
+                lists[i]=mergeTwoLists(lists[i], lists[n-i-1]);
+            }
+            
+            n=(n+1)/2;
+        }
+        
+        return lists[0];
+        
     }
 };
