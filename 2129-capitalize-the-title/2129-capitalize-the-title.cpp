@@ -2,26 +2,24 @@ class Solution {
 public:
     string capitalizeTitle(string title) {
         
-        int start=0;
-           title+=" ";
-        int n = title.size();
-     
-        int i=0;
-        int count=0;
-        while(i<n){
+        int n=title.size();
+        int j=0;
+        for(int i=0;i<n;i++){
+            
+            
             if(title[i]==' '){
-                if(count>2){
-                title[start]=title[start]>='a'&&title[start]<='z'?(char)(title[start]-32):title[start];
+                int len = i-j;
+                
+                if(len>=3){
+                    title[j] = toupper(title[j]);
+                    
                 }
-                start=i+1;
-                count=0;
+                j=i+1;
             }else{
-                title[i] = title[i]>='A'&&title[i]<='Z'?(char)(title[i]+32):title[i];
-                count++;
+                title[i] = tolower(title[i]);
             }
-            i++;
         }
-        
-        return title.substr(0, n-1);
+        if(title.size()-j>=3) title[j]=toupper(title[j]);
+        return title;
     }
 };
