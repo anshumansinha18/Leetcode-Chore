@@ -1,41 +1,30 @@
 class UndergroundSystem {
-    
-    unordered_map<int, pair<string, int>> checkedIn;
-    map<pair<string, string>, vector<double>> average;
+    unordered_map<int, pair<string, int>> m1;
+    map<string, map<string, pair<int, double>>> m2;
 public:
     UndergroundSystem() {
         
     }
     
     void checkIn(int id, string stationName, int t) {
-        
-  
-            checkedIn[id] = make_pair(stationName, t);
-        
+        m1[id].first = stationName;
+        m1[id].second = t;
     }
     
     void checkOut(int id, string stationName, int t) {
-        
-        
-        // string totalName= checkedIn[id].first + stationName;
-        // if(checkedIn.find(id)==checkedIn.end()) return;
-        pair<string, string> p = make_pair(checkedIn[id].first, stationName);
-        if(average.find(p)==average.end()){
-            vector<double> vec = {1.0, t-(double)checkedIn[id].second};
-            average[p] = vec;
-        }else{
-            double oldAvg = average[p][0]*average[p][1];
-            average[p][0]++;
-            double newAvg = ((t-checkedIn[id].second)+oldAvg)/average[p][0];
-           
-            average[p][1] = newAvg;
-        }
-        // checkedIn.erase(id);
+    
+        double diff = t-m1[id].second;
+       
+        double prevAvg = m2[m1[id].first][stationName].second;
+        int prevCount= m2[m1[id].first][stationName].first;
+        m2[m1[id].first][stationName].first++;
+        double newAvg = (prevAvg*prevCount + diff)/(m2[m1[id].first][stationName].first);
+        m2[m1[id].first][stationName].second =newAvg;
+
     }
     
     double getAverageTime(string startStation, string endStation) {
-        pair<string, string> p = make_pair(startStation, endStation);
-        return average[p][1];
+        return m2[startStation][endStation].second;
     }
 };
 
