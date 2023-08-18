@@ -1,95 +1,51 @@
-class Node{
-public:
-    int data;
-    int value;
-    Node* prev;
-    Node* next;
-
-    Node(int data, int value){
-        this->data = data;
-        this->value=value;
-        this->next = nullptr;
-        this->prev = nullptr;
-    }
-};
-
-
 class LRUCache {
-    Node* head;
-    Node* tail;
+    unordered_map<int, pair<list<int>::iterator, int>> m;
+    list<int> dll;
+    int size;
     int capacity;
-    unordered_map<int, Node*> m;
-    int curr_size;
 public:
     LRUCache(int capacity) {
-        this->capacity = capacity;
-        this->head=nullptr;
-        this->tail=nullptr;
-        curr_size=0;
+        this->capacity=capacity;
+        this->size=0;
     }
-
+    
     int get(int key) {
-
-        if(m.find(key)==m.end()){
-            return -1;
-        }
-        // cout<<"x1";
-
-        Node *p = m[key];
-        int result=p->data;
-        int val = p->value;
-        deleteNode(head, tail, p);
-        insertAtHead(head, tail, result, val);
-        m[key]=head;
-        return val;
+        if(m.find(key)==m.end()) return -1;
+        
+        int result = m[key].second;
+        dll.erase(m[key].first);
+        dll.push_front(key);
+        m[key].first = dll.begin();
+        return result;
     }
-
+    
     void put(int key, int value) {
         
-        if(m.find(key)!=m.end())
-            deleteNode(head, tail, m[key]);
-        else
-            curr_size++;
+        if(m.find(key)!=m.end()){
+            dll.erase(m[key].first);
+            dll.push_front(key);
+            m[key].first = dll.begin();
+            m[key].second=value;
+            return;
+        }
         
-        insertAtHead(head, tail, key, value);
-        m[key]=head;
-        if(curr_size>capacity){
-            m.erase(tail->data);
-            deleteNode(head, tail, tail);
-            curr_size--;
+        dll.push_front(key);
+        m[key].first=dll.begin();
+        m[key].second=value;
+        size++;
+        
+        if(size>capacity){
+            list<int>:: iterator it = dll.end();
+            it--;
+            m.erase(*it);
+            dll.erase(it);
         }
     }
-
-    void insertAtHead(Node* &head,Node* &tail, int data, int value){
-        Node* new_node = new Node(data, value);
-        new_node->next=head;
-        if(head) head->prev=new_node;
-        head=new_node;
-        if(tail== nullptr) tail=head;
-    }
-    void deleteNode(Node* &head, Node* &tail, Node* p){
-        if(p== nullptr) return;
-
-        Node* x = p->prev;
-        Node* y = p->next;
-        if(p==head) head=head->next;
-        if(p==tail) tail=tail->prev;
-        if(x) x->next=y;
-        if(y) y->prev=x;
-        delete p;
-    }
-
 };
 
 /**
  * Your LRUCache object will be instantiated and called as such:
  * LRUCache* obj = new LRUCache(capacity);
- * int param_1 = obj->get(key);
- * obj->put(key,value);
- */
-/**
- * Your LFUCache object will be instantiated and called as such:
- * LFUCache* obj = new LFUCache(capacity);
  * int param_1 = obj->get(key);
  * obj->put(key,value);
  */
