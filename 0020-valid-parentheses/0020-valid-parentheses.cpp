@@ -1,26 +1,21 @@
 class Solution {
 public:
-    
-    bool isMatching(stack<int> &st, char c){
-        if(c=='}' && st.top()=='{'){
-            return true;
-        }else if(c==')' && st.top()=='(')
-            return true;
-        else if(c==']' && st.top()=='[')
-            return true;
-        else return false;
-    }
     bool isValid(string s) {
+        stack<char> st;
+        unordered_map<char, char> m;
+        m[')']='(';
+        m['}']='{';
+        m[']']='[';
         
+        int n = s.size();
         
-        int i=0;
-        stack<int> st;
-        while(i<s.size()){
-            
-            if(!st.empty() && isMatching(st, s[i])){
-                st.pop();
-            }else st.push(s[i]);
-            i++;
+        for(int i=0;i<n;i++){
+            if(s[i]=='(' || s[i]=='{' || s[i]=='[' || st.empty())
+                st.push(s[i]);
+            else{
+                if(st.top()==m[s[i]]) st.pop();
+                else st.push(s[i]);
+            }
         }
         
         return st.empty();
