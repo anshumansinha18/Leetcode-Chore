@@ -1,53 +1,50 @@
 class MinStack {
-    int *arr1;
-    int *arr2;
-    int top1;
-    int top2;
-    int size;
+    stack<int> st;
+    stack<int> normalStack;
 public:
     MinStack() {
-        size=3*100000;
-        arr1 = new int[size];
-        arr2=new int[size];
-        top1=-1;
-        top2=-1;
+        
     }
     
     void push(int val) {
-        if(top1==size-1){
-            return;
+        normalStack.push(val);
+        stack<int> temp;
+        while(!st.empty() && val>st.top()){
+            int x = st.top();
+            st.pop();
+            temp.push(x);
         }
-        
-        top1++;
-        arr1[top1]=val;
-        
-        if(top2==-1){
-            arr2[++top2]=val;
-        }else{
-            if(val<=arr2[top2]){
-                arr2[++top2]=val;
-            }
+        st.push(val);
+        while(!temp.empty()){
+            int x = temp.top();
+            temp.pop();
+            st.push(x);
         }
-        
     }
     
     void pop() {
-         if(top1==-1)
-             return;
-        
-        if(arr1[top1]==arr2[top2]){
-            top2--;
+        int topElem = normalStack.top();
+        normalStack.pop();
+        stack<int> temp;
+        while(!st.empty() && st.top()!=topElem){
+            int x = st.top();
+            st.pop();
+            temp.push(x);
         }
-        
-        top1--;
+        st.pop();
+        while(!temp.empty()){
+            int x = temp.top();
+            temp.pop();
+            st.push(x);
+        }
     }
     
     int top() {
-        return arr1[top1];
+        return normalStack.top();
     }
     
     int getMin() {
-        return arr2[top2];
+        return st.top();
     }
 };
 
