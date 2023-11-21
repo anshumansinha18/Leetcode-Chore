@@ -6,14 +6,19 @@ public:
     }
     
     void push(int val) {
-         if(st.empty()) st.push(make_pair(val, val));
-         else{
-             if(val>st.top().second){
-                 st.push(make_pair(val, st.top().second));
-             }else{
-                 st.push(make_pair(val, val));
-             }
-         }
+         // if(st.empty()) st.push(make_pair(val, val));
+         // else{
+         //     if(val>st.top().second){
+         //         st.push(make_pair(val, st.top().second));
+         //     }else{
+         //         st.push(make_pair(val, val));
+         //     }
+         // }
+        
+        if(st.empty() || val<st.top().second)
+            st.push(make_pair(val, val));
+        else
+            st.push(make_pair(val, st.top().second));
     }
     
     void pop() {
