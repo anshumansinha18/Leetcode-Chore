@@ -1,50 +1,31 @@
 class MinStack {
-    stack<int> st;
-    stack<int> normalStack;
+    stack<pair<int, int>> st;
 public:
     MinStack() {
         
     }
     
     void push(int val) {
-        normalStack.push(val);
-        stack<int> temp;
-        while(!st.empty() && val>st.top()){
-            int x = st.top();
-            st.pop();
-            temp.push(x);
-        }
-        st.push(val);
-        while(!temp.empty()){
-            int x = temp.top();
-            temp.pop();
-            st.push(x);
-        }
+         if(st.empty()) st.push(make_pair(val, val));
+         else{
+             if(val>st.top().second){
+                 st.push(make_pair(val, st.top().second));
+             }else{
+                 st.push(make_pair(val, val));
+             }
+         }
     }
     
     void pop() {
-        int topElem = normalStack.top();
-        normalStack.pop();
-        stack<int> temp;
-        while(!st.empty() && st.top()!=topElem){
-            int x = st.top();
-            st.pop();
-            temp.push(x);
-        }
         st.pop();
-        while(!temp.empty()){
-            int x = temp.top();
-            temp.pop();
-            st.push(x);
-        }
     }
     
     int top() {
-        return normalStack.top();
+        return st.top().first;
     }
     
     int getMin() {
-        return st.top();
+        return st.top().second;
     }
 };
 
