@@ -1,21 +1,29 @@
 class NumArray {
 public:
     
-    vector<int> cummSum;
+    //[-2, 0, 3, -5, 2, -1]
+    vector<int> cumm;
+    
     NumArray(vector<int>& nums) {
-        
         int n = nums.size();
-        vector<int> cummSum(n+1);
+        cumm.resize(n);
         for(int i=0;i<n;i++){
-            cummSum[i+1] = cummSum[i]+nums[i];
+            if(i==0) cumm[i]=nums[i];
+            else cumm[i]=cumm[i-1]+nums[i];
         }
+    
         
-        this->cummSum = cummSum;
     }
     
     int sumRange(int left, int right) {
+        int n = cumm.size();
+       
+        if(left==0 && right==n-1) return cumm[right];
+        if(left==0) return cumm[right];
+        if(right==n-1)  return cumm[n-1]-cumm[left-1];
+        else return cumm[right]-cumm[left-1];
         
-         return cummSum[right+1]-cummSum[left];
+        
     }
 };
 
