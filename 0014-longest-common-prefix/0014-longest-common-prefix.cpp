@@ -1,50 +1,45 @@
 class Solution {
 public:
-    
-    int partition(vector<string>&strs, int low, int high){
-        
-        int i=low-1;
-        string pivot = strs[high];
-        
-        for(int j=low;j<high;j++){
-            if(strs[j]<pivot){
-                i++;
-                swap(strs[i], strs[j]);
-            }
-            
-        }
-        
-        swap(strs[i+1], strs[high]);
-        return i+1;
-    }
-    
-    void quickSort(vector<string>& strs, int low, int high){
-        if(low>=high){
-            return;
-        }
-        
-        int pivotIndex = partition(strs, low, high);
-        quickSort(strs, low, pivotIndex-1);
-        quickSort(strs, pivotIndex+1, high);
-    }
-    
     string longestCommonPrefix(vector<string>& strs) {
         
-        int n = strs.size();
-        
-        quickSort(strs, 0, n-1);
-        string res="";
-        int i=0;
-        
-        for(int i=0;i<n;i++){
-            cout<<strs[i]<<" ";
-        }
        
-        while(i<strs[0].size() && strs[0][i]==strs[n-1][i]){
-            res+=strs[0][i];
+        //   i
+        //        j
+        
+        int n=strs.size();
+        
+        //find min length word:
+        string minWord="";
+        int minLength=201;
+        for(int i=0;i<n;i++){
+            if(strs[i].size()<minLength){
+                minLength=strs[i].size();
+                minWord=strs[i];
+            }
+        }
+        
+        //minWord= "a"
+                 // i
+        int i=0; //for minWord
+        int j=0; //iterate over array
+        // //flower, flow, flight
+        //   j
+        string res="";
+        // cout<<minWord<<" "<<minLength<<endl;
+        while(i<minLength){
+            while(j<n){
+                if(minWord[i]!=strs[j][i]){
+                    return res;
+                }
+                j++;
+            }
+            
+            res+=minWord[i];
+            j=0;
             i++;
         }
         
         return res;
+        
     }
 };
