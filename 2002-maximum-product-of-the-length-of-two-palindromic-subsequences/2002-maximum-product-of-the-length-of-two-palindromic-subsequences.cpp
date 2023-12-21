@@ -1,45 +1,39 @@
 class Solution {
 public:
     
-    bool checkPal(string s){
+    bool isPalindrome(string s){
         int start=0;
-        int end = s.size()-1;
+        int end=s.size()-1;
         
         while(start<end){
             if(s[start]!=s[end]) return false;
             start++;
             end--;
         }
-        
         return true;
     }
     int maxProduct(string s) {
         
-        int n = s.size();
-        vector<pair<int, int>> vec;
+        int n=s.size();
+        vector<pair<int, int>> bucket;
         for(int i=1;i<(1<<n);i++){
-            string check="";
+            string res="";
             for(int j=0;j<n;j++){
-                int x = 1<<j;
-                if((i&x)!=0){
-                    check+=s[j];
+                if(i&(1<<(n-j-1))){
+                    res+=s[j];
                 }
             }
-            if(checkPal(check)){ 
-  
-                vec.push_back(make_pair(i, check.size()));}
+            if(isPalindrome(res)) bucket.push_back(make_pair(res.size(), i));
         }
+        int maxProd=1;
         
-        int maxProd=0;
-        for(int i=0;i<vec.size()-1;i++){
-            for(int j=i+1;j<vec.size();j++){
-            
-                if((vec[i].first&vec[j].first)==0){
-                    maxProd = max(maxProd, vec[i].second*vec[j].second);
+        for(int i=0;i<bucket.size();i++){
+            for(int j=i+1;j<bucket.size();j++){
+                if(((bucket[i].second)&(bucket[j].second))==0){
+                  maxProd=max(maxProd, bucket[i].first*bucket[j].first);
                 }
             }
         }
-        
         return maxProd;
     }
 };
