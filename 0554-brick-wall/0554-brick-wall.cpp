@@ -2,25 +2,30 @@ class Solution {
 public:
     int leastBricks(vector<vector<int>>& wall) {
         
-        vector<vector<int>> cumm(wall.size());
-        
-        unordered_map<int, int> m;
-        
-        for(int i=0;i<wall.size();i++){
-            vector<int> temp(wall[i].size());
-            for(int j=0;j<wall[i].size()-1;j++){
-                if(j==0) temp[j] = wall[i][j];
-                else temp[j] = temp[j-1] + wall[i][j];
-                m[temp[j]]++;
+        vector<vector<int>> sum;
+        int n = wall.size();
+        for(int i=0;i<n;i++){
+            vector<int> temp;
+            for(int j=0;j<wall[i].size();j++){
+                if(j==0) temp.push_back(wall[i][j]);
+                else temp.push_back(temp[j-1]+wall[i][j]);
             }
-            cumm[i] = temp;
+            sum.push_back(temp);
         }
         
-        int maxL = 0;
+       unordered_map<int, int> m;
+        for(int i=0;i<sum.size();i++){
+            for(int j=0;j<sum[i].size()-1;j++){
+                m[sum[i][j]]++;
+            }
+        }
+        
+        int maxFreq=0;
         for(auto it: m){
-            maxL = max(maxL, it.second);
+            if(it.second>maxFreq){
+                maxFreq=it.second;
+            }
         }
-        
-        return wall.size()-maxL;
+        return sum.size()-maxFreq;
     }
 };
