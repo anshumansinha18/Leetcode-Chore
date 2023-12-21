@@ -1,18 +1,16 @@
 class Solution {
 public:
     int minSwaps(string s) {
-        
         int n = s.size();
-        int extra = 0;
-        int maxExtra = 0;
+        int close=0;
+        int maxClose=0;
         for(int i=0;i<n;i++){
-            if(s[i]==']')
-                extra++;
-            else
-                extra--;
-            maxExtra = max(extra, maxExtra);
+            if(s[i]==']') close++;
+            else close--;
+            maxClose=max(maxClose, close);
         }
         
-        return (maxExtra+1)/2;
+        return (maxClose+1)/2;
     }
+    
 };
