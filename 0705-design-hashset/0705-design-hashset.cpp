@@ -1,32 +1,38 @@
 class MyHashSet {
+public:
+    vector<list<int>> vec;
     
-    public:
-    vector<int> arr;
+    
     MyHashSet() {
+        vector<list<int>> x(11000);
+        vec=x;
         
     }
     
+    int getHash(int key){
+        return key%10000;
+    }
     void add(int key) {
-        if(!contains(key)) arr.push_back(key);
+        int index = getHash(key);
+        
+        if(!contains(key)){
+            vec[index].push_back(key);
+        }
     }
     
     void remove(int key) {
-        if(contains(key)){
-            for(int i=0;i<arr.size();i++){
-                if(key==arr[i]){
-                    swap(arr[i], arr[arr.size()-1]);
-                    break;
-                }
-            }
-            arr.pop_back();
-        }
+        int index = getHash(key);
+        
+        auto itr = find(vec[index].begin(), vec[index].end(), key);
+        
+        if(itr!=vec[index].end()) vec[index].erase(itr);
+        
     }
     
     bool contains(int key) {
-        for(int i=0;i<arr.size();i++){
-            if(key==arr[i]) return true;
-        }
-        return false;
+        int index = getHash(key);
+        auto itr = find(vec[index].begin(), vec[index].end(), key);
+        return itr!=vec[index].end();
     }
 };
 
