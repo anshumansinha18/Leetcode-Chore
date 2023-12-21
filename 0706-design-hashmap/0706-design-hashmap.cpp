@@ -1,87 +1,60 @@
-class HashNode{
-public:
-    int key;
-    int data;
-    HashNode *next;
-
-
-    HashNode(int key, int value){
-        this->key = key;
-        this->data = value;
-        this->next= nullptr;
-    }
-
-
-};
-
-
-
 class MyHashMap {
-
-    HashNode** arr;
 public:
+    vector<list<pair<int, int>>> hash;
     MyHashMap() {
-        arr = new HashNode*[10007];
-        for(int i=0;i<10007;i++){
-            arr[i] = NULL;
-        }
+       hash = vector<list<pair<int, int>>>(11000);
+       
     }
-
+    
+    int getHash(int key){
+       return key%11000;  
+    }
     void put(int key, int value) {
-        HashNode *node = new HashNode(key, value);
-        int idx = key%10007;
-
-        if(arr[idx]== nullptr)
-            arr[idx]= node;
-        else{
-            HashNode *temp = arr[idx];
-            while(temp->next!= nullptr)
-                temp = temp->next;
-            temp->next = node;
-        }
-    }
-
-    int get(int key) {
-        int idx = key%10007;
-
-        if(arr[idx]== nullptr)
-            return -1;
-        else{
-            HashNode *temp = arr[idx];
-            int result=-1;
-            while(temp){
-                if(temp->key==key){
-                    result=temp->data;
-                }
-                temp=temp->next;
+        int index = getHash(key);
+        
+         list<pair<int, int>>& bucket = hash[index];
+         for(auto itr = bucket.begin();itr!=bucket.end();itr++){
+            if(itr->first==key){
+              bucket.erase(itr);
+              break;
             }
-            return result;
         }
+        bucket.push_back(make_pair(key, value));
     }
-
+    
+    int get(int key) {
+        int index = getHash(key);
+        list<pair<int, int>>& bucket = hash[index];
+        for(auto itr = bucket.begin();itr!=bucket.end();itr++){
+            // cout<<itr->first<<" ";
+            if(itr->first==key){
+                return itr->second;
+            }
+        }
+        return -1;
+    }
+    
     void remove(int key) {
-      //first element removal:
-      int idx = key%10007;
-     HashNode *curr = arr[idx];
-     HashNode *prev = arr[idx];
-
-     while(curr) {
-         if (curr == arr[idx]) {
-             if (curr->key == key) {
-                 arr[idx] = curr->next;
-                 curr = arr[idx];
-                 prev = curr;
-             } else
-                 curr = curr->next;
-         } else {
-             if (curr->key == key) {
-                 prev->next = curr->next;
-             } else {
-                 prev = curr;
+          int index = getHash(key);
+          list<pair<int, int>>& bucket = hash[index];
+         auto itr=bucket.begin();
+          for(itr = bucket.begin();itr!=bucket.end();itr++){
+            if(itr->first==key){
+               // bucket.erase(make_pair(itr->first, itr->second));
+                break;
              }
-             curr = curr->next;
-         }
-     }
-
+          }
+        if(itr!=bucket.end()) bucket.erase(itr);
+          
+        
+        
     }
 };
+
+/**
+ * Your MyHashMap object will be instantiated and called as such:
+ * MyHashMap* obj = new MyHashMap();
+ * obj->put(key,value);
+ * int param_2 = obj->get(key);
+ * obj->remove(key);
+ */
