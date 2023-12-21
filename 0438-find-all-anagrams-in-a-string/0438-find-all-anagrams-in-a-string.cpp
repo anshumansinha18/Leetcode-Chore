@@ -1,40 +1,25 @@
 class Solution {
 public:
-    
-    
-    bool compare(vector<int>& vec1, vector<int>& vec2){
-        for(int i=0;i<26;i++){
-            if(vec1[i]!=vec2[i])
-                return false;
-        }
-        
-        return true;
-    }
     vector<int> findAnagrams(string s, string p) {
+        int n1=s.size();
+        int n2=p.size();
         
-        int n1 = s.size();
-        int n2 = p.size();
-        vector<int> m(26, 0);
-        vector<int> rm(26, 0);
-        vector<int> res;
-        
-        
+        map<char, int> m1;
         for(int i=0;i<n2;i++){
-            m[p[i]-97]++;
+            m1[p[i]]++;
         }
-        
         int i=0;
+        map<char, int> m2;
+        vector<int> res;
         for(int j=0;j<n1;j++){
-            rm[s[j]-97]++;
+            m2[s[j]]++;
             
-            if(compare(m, rm)){
-                cout<<i<<endl;
-                cout<<j;
-                res.push_back(i);
-            }
-            
-            if(j-i==n2-1){
-                rm[s[i]-97]--;
+            if((j-i+1)==n2){
+                if(m1==m2)
+                   res.push_back(i);
+                
+                m2[s[i]]--;
+                if(m2[s[i]]==0) m2.erase(s[i]);
                 i++;
             }
         }
