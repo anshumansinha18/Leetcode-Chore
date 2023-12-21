@@ -1,56 +1,43 @@
 class Solution {
 public:
-bool compare(string s, string l){
-  string straight = s+l;
-  string rev = l+s;
-  if(rev>straight)
-      return true;
-  else
-      return false;
-
-
-}
-int partition(vector<string>& arr, int low, int high){
-    string pivot = arr[high];
-    int i = low-1;
-
-    for(int j=low;j<high;j++){
-        if(compare(arr[j], pivot)){
-            i++;
-            swap(arr[i], arr[j]);
+    bool compare(int x, int y){
+        string s1=to_string(x);
+        string s2=to_string(y);
+        string comb1 = s1+s2;
+        string comb2=s2+s1;
+        return comb1>comb2;
+    }
+    int partition(vector<int>& nums, int low, int high){
+        int i=low-1;
+        int pivot=nums[high];
+        for(int j=low;j<high;j++){
+            if(compare(nums[j], pivot)){
+                i++;
+                swap(nums[i], nums[j]);
+            }
         }
+        
+        swap(nums[i+1], nums[high]);
+        return i+1;
     }
-
-    swap(arr[i+1], arr[high]);
-    return i+1;
-
-}
-
-void quickSort(vector<string>& arr, int low, int high){
-    if(low>=high)
-        return;
-
-    int pivotIndex = partition(arr, low, high);
-    quickSort(arr, low, pivotIndex-1);
-    quickSort(arr, pivotIndex+1, high);
-}
-string largestNumber(vector<int>& nums) {
-       vector<string> arr;
-    for(int i=0;i<nums.size();i++){
-        arr.push_back(to_string(nums[i]));
+    
+    void quickSort(vector<int> &nums, int low, int high){
+        
+        if(low>=high) return;
+        
+        int pivotIndex = partition(nums, low, high);
+        quickSort(nums, low, pivotIndex-1);
+        quickSort(nums, pivotIndex+1, high);
     }
-
-    quickSort(arr, 0, arr.size()-1);
-    string res = "";
-
-
-   for(int i=arr.size()-1;i>=0;i--)
-       res+=arr[i];
- 
-    if(res[0]=='0')
-        return "0";
-   
-return res;
-
-}
+    
+    string largestNumber(vector<int>& nums) {
+        quickSort(nums, 0, nums.size()-1);
+        string res="";
+        for(auto it: nums){
+            res+=to_string(it);
+        }
+        if(res[0]=='0') return "0";
+        return res;
+    }
+    
 };
