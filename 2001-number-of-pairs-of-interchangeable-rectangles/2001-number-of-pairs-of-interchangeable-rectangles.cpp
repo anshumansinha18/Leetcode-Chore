@@ -1,25 +1,19 @@
 class Solution {
 public:
     long long interchangeableRectangles(vector<vector<int>>& rectangles) {
-        
-        int n = rectangles.size();
-        map<pair<int, int>, int> m;
-        long long sum=0;
+        unordered_map<double, int> m;
+        int n=rectangles.size();
         for(int i=0;i<n;i++){
-               int gcd = __gcd(rectangles[i][0], rectangles[i][1]);
-            
-                   
-                   m[make_pair(rectangles[i][0]/gcd, rectangles[i][1]/gcd)]++;
+            m[(double)rectangles[i][0]/rectangles[i][1]]++;
         }
         
-      
-        
+      long long count=0;
         for(auto it: m){
             long long x = it.second;
-            x--;
-            sum+= (x*(x+1)/2);
+            count+=((x-1)*x)/2;
         }
+            
         
-        return sum;
+        return count;
     }
 };
