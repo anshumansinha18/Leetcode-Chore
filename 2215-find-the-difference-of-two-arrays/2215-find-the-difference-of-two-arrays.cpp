@@ -3,35 +3,34 @@ public:
     vector<vector<int>> findDifference(vector<int>& nums1, vector<int>& nums2) {
         unordered_map<int, int> m1;
         unordered_map<int, int> m2;
-        
-        for(int i=0;i<nums1.size();i++){
+        set<int> st;
+        int n1=nums1.size();
+        int n2 = nums2.size();
+        for(int i=0;i<n1;i++){
             m1[nums1[i]]++;
         }
         
-        for(int i=0;i<nums2.size();i++){
-            m2[nums2[i]]++;
+        for(int j=0;j<n2;j++){
+            m2[nums2[j]]++;
         }
-        
         vector<vector<int>> res;
-        unordered_set<int> x,y;
-        for(int i=0;i<nums1.size();i++){
-            if(m2.find(nums1[i])==m2.end())
-                x.insert(nums1[i]);
+        vector<int> temp;
+        for(int i=0;i<n1;i++){
+            if(!m2[nums1[i]]) st.insert(nums1[i]);
         }
         
-        for(int i=0;i<nums2.size();i++){
-            if(m1.find(nums2[i])==m1.end())
-                y.insert(nums2[i]);
+        
+        for(auto it: st) temp.push_back(it);
+        res.push_back(temp);
+        st.clear();
+        temp.clear();
+        for(int i=0;i<n2;i++){
+            if(!m1[nums2[i]]) st.insert(nums2[i]);
         }
-        vector<int> a,b;
-        for(auto it: x){
-           a.push_back(it);
-        }
-         for(auto it: y){
-           b.push_back(it);
-        }
-        res.push_back(a);
-        res.push_back(b);
-        return res;
+        for(auto it: st) temp.push_back(it);
+        st.clear();
+        res.push_back(temp);
+        
+       return res;
     }
 };
