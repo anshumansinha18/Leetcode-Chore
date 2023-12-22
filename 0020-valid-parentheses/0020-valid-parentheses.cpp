@@ -1,21 +1,31 @@
 class Solution {
 public:
     
-    bool check(stack<int>& st, char s){
-        return !st.empty() &&
-               ((st.top()=='(' && s==')') || 
-               (st.top()=='{' && s=='}') ||
-               (st.top()=='[' && s==']'));
+    bool isOpening(char c){
+        return c=='(' || c=='[' || c=='{';
+    }
+    
+    bool isMatching(char x, char y){
+        if(x=='}' && y=='{') return true;
+        else if(x==']' && y=='[') return true;
+        else if(x==')' && y=='(') return true;
+        else return false;
     }
     bool isValid(string s) {
-        stack<int> st;
         
-        for(int i=0;i<s.size();i++){
-              
-                if(check(st, s[i])) st.pop();
-                else st.push(s[i]);
+        int n=s.size();
+        
+        stack<char> st;
+        
+        for(int i=0;i<n;i++){
+            if(isOpening(s[i])){
+                st.push(s[i]);
+            }else{
+                if(!st.empty() && isMatching(s[i], st.top())){
+                    st.pop();
+                }else st.push(s[i]);
             }
-        
+        }
         
         return st.empty();
     }
