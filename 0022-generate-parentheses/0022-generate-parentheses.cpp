@@ -1,23 +1,25 @@
 class Solution {
-    vector<string> result;
 public:
     
-    void addBrackets(string s, int open, int close, int n){
+    void generate(string s, vector<string>& res, int open, int close, int n){
         if(open==n && close==n){
-            result.push_back(s);
+            res.push_back(s);
             return;
+        }
+        
+        if(open==close){
+            generate(s+'(', res, open+1, close, n);
         }else if(open==n){
-            addBrackets(s+')', open, close+1, n);
-        }else if(close<open){
-            addBrackets(s+'(', open+1, close, n);
-            addBrackets(s+')', open, close+1, n);
-        }else if(open==close){
-            addBrackets(s+'(', open+1, close, n);
+            generate(s+')', res, open, close+1, n);
+        }else{
+            generate(s+'(', res, open+1, close, n);
+            generate(s+')', res, open, close+1,  n);
         }
     }
+    
     vector<string> generateParenthesis(int n) {
-        
-        addBrackets("", 0, 0,n);
-        return result;
+        vector<string> res;
+       generate("(", res, 1, 0, n);    
+       return res;
     }
 };
