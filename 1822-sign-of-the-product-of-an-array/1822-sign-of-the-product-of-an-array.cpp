@@ -1,17 +1,22 @@
 class Solution {
 public:
     int arraySign(vector<int>& nums) {
-     
-        int count=0;
-        for(int i=0;i<nums.size();i++){
-            if(nums[i]<0) count++;
-            else if(nums[i]==0){
-                return 0;
+        int n=nums.size();
+        int negCount=0;
+        int zero = 0;
+        
+        for(int i=0;i<n;i++){
+            if(nums[i]<0){
+                negCount++;
+            }else if(nums[i]==0){
+                zero++;
             }
         }
         
-         if(count%2==0) return 1;
+        if(zero) return 0;
+        else if(negCount%2==0) return 1;
         else return -1;
         
+     
     }
 };
