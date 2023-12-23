@@ -1,22 +1,20 @@
 class Solution {
 public:
     int carFleet(int target, vector<int>& position, vector<int>& speed) {
-        
-        map<int, double> m;
-        int n = position.size();
-        for(int i=0;i<n;i++){
-            m[position[i]] = (target-position[i])/(double)speed[i];
+        map<int, int> m;
+        for(int i=0;i<position.size();i++){
+            m[position[i]]=speed[i];
         }
-        stack<double> st;
+        stack<float> st;
+        
         for(auto it: m){
-            cout<<it.second<<endl;
-            while(!st.empty() && it.second>=st.top())
+            float time = (target-it.first)/(float)it.second;
+            while(!st.empty() && time>=st.top()){
                 st.pop();
-            
-            st.push(it.second);
+            }
+            st.push(time);
         }
         
         return st.size();
-        
     }
 };
