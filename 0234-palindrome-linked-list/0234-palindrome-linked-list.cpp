@@ -11,36 +11,39 @@
 class Solution {
 public:
     
-    void insertAtHead(ListNode* &head, int data){
-        ListNode* new_node = new ListNode(data);
-        new_node->next=head;
-        head=new_node;
-    }
-    
-    ListNode* reverseList(ListNode* head){
+    ListNode* reverse(ListNode* head){
+        ListNode* prev=nullptr;
+        ListNode* curr=head;
+        ListNode* next=head->next;
         
-        ListNode* newList = nullptr;
-        while(head!=nullptr){
-            insertAtHead(newList, head->val);
-            head=head->next;
+        while(curr){
+            curr->next=prev;
+            prev=curr;
+            curr=next;
+            if(next) next=next->next;
         }
         
-        return newList;
+        return prev;
+        
     }
-    
-   
     bool isPalindrome(ListNode* head) {
         
-        ListNode* revHead = reverseList(head);
+        ListNode* slow=head;
+        ListNode* fast=head;
         
-        
-        while(head!=nullptr){
-            if(head->val!=revHead->val)
-                return false;
-            head=head->next;
-            revHead=revHead->next;
+        while(fast && fast->next){
+            fast=fast->next->next;
+            slow=slow->next;
         }
         
+        ListNode* rev=reverse(slow);
+        
+        while(head && rev){
+            if(head->val!=rev->val) return false;
+            head=head->next;
+            rev=rev->next;
+        }
+      
         return true;
     }
 };
