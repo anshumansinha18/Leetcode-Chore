@@ -10,47 +10,25 @@
  */
 class Solution {
 public:
-    
-    void deleteHead(ListNode* &head, ListNode* &temp){
-        if(head==nullptr) return;
-        ListNode* t = head;
-        head=head->next;
-        delete t;
-        temp=head;
-    }
-    
-    void deleteEnd(ListNode* &head, ListNode* &prev){
-        if(head==nullptr) return;
-        delete prev->next;
-        prev->next=nullptr;
-    }
-    void deleteMiddle(ListNode* &head, ListNode* &prev, ListNode* &temp){
-        ListNode* t=prev->next;
-        prev->next=prev->next->next;
-        delete t;
-        temp=prev->next;
-    }
     ListNode* removeElements(ListNode* head, int val) {
+        if(head==nullptr) return head;
         
-        ListNode* temp=head;
-        ListNode* prev=head;
-        while(temp!=nullptr){
-            if(temp->val==val){
-                //if val is present at head
-                if(head==temp){
-                    deleteHead(head, temp);
-                }else if(temp->next==nullptr){
-                    deleteEnd(head, prev);
-                    temp=nullptr;
-                }else{
-                    deleteMiddle(head, prev, temp);
-                }
-            }
+        ListNode* dummy = new ListNode();
+        dummy->next=head;
+        ListNode* curr = head;
+        ListNode* next=head->next;
+        ListNode* prev=dummy;
+        
+        while(curr){
+            if(curr->val==val)
+                prev->next=next;
             else{
-                 prev=temp;
-                temp=temp->next;
+                prev=curr;
             }
+            curr=next;
+            if(next) next=next->next; 
         }
-        return head;
+        
+        return dummy->next;
     }
 };
