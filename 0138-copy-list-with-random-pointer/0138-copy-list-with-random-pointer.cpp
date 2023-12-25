@@ -19,20 +19,20 @@ public:
     Node* copyRandomList(Node* head) {
         map<Node*, Node*> m;
         
-        Node* temp=head;
-        while(temp){
-            Node* new_node = new Node(temp->val);
-            m[temp]=new_node;
-            temp=temp->next;
+        Node* curr = head;
+        while(curr){
+            Node* copy = new Node(curr->val);
+            m[curr]=copy;
+            curr=curr->next;
         }
         
-        temp=head;
-        while(temp){
-            m[temp]->next=m[temp->next];
-            m[temp]->random=m[temp->random];
-            temp=temp->next;
+        curr=head;
+        while(curr){
+            Node* copy = m[curr];
+            copy->next = m[curr->next];
+            copy->random = m[curr->random];
+            curr=curr->next;
         }
-        
         return m[head];
     }
 };
