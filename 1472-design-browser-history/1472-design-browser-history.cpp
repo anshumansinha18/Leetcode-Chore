@@ -1,46 +1,36 @@
 class BrowserHistory {
-    
-    list<string> dll;
-    list<string>::iterator it;
 public:
+    stack<string> history;
+    stack<string> future;
     BrowserHistory(string homepage) {
-        dll.push_back(homepage);
-        it=dll.begin();
+        history.push(homepage);
     }
     
     void visit(string url) {
-        
-        list<string>::iterator temp = dll.end();
-        temp--;
-     
-            while(it!=temp){
-                dll.pop_back();
-                temp=dll.end();
-                temp--;
-            }
-        
-         dll.push_back(url);
-         it++;
-        
+        history.push(url);
+        future = stack<string>();
     }
     
     string back(int steps) {
         
-        while(steps&&it!=dll.begin()){
-            it--;
+        while(steps && history.size()!=1){
+            string s = history.top();
+            history.pop();
+            future.push(s);
             steps--;
         }
-        return *it;
+        return history.top();
     }
     
     string forward(int steps) {
-        
-        while(steps&&it!=dll.end()){
-            it++;
+        string res=history.top();
+        while(steps && !future.empty()){
+            res = future.top();
+            future.pop();
+            history.push(res);
             steps--;
         }
-        if(it==dll.end()) --it;
-        return *it;
+        return res;
     }
 };
 
