@@ -10,30 +10,46 @@
  */
 class Solution {
 public:
+    
+    ListNode* reverse(ListNode* head){
+        if(head==nullptr && head->next==nullptr) return head;
+        ListNode* prev=nullptr;
+        ListNode* curr=head;
+        
+        while(curr){
+            ListNode* next=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=next;
+        }
+        return prev;
+    }
     void reorderList(ListNode* head) {
-          if(head==nullptr || head->next==nullptr || head->next->next==nullptr)
-              return;
+        if(head==nullptr || head->next==nullptr || head->next->next==nullptr) return;
         
-         stack<ListNode*> st;
+        ListNode* slow=head;
+        ListNode* fast=head;
         
-         ListNode *it = head;
-         while(it!=nullptr){
-             st.push(it);
-             it=it->next;
-         }
-          
-          ListNode *next = head->next;
-          ListNode *curr= head;
-          while(curr->next->next!=curr){
+        while(fast && fast->next){
+            fast=fast->next->next;
+            slow=slow->next;
+        }
+        
+        ListNode* mid=slow->next;
+        slow->next=nullptr;
+        
+        ListNode* second = reverse(mid);
+        ListNode* i=head,*j=second;
+        while(i&&j){
+            ListNode* iNext=i->next;
+            ListNode* jNext=j->next;
             
-              curr->next=st.top();
-              curr=next;
-              st.top()->next = curr;
-              next=next->next;
-              st.pop();
-          }
-        
-       curr->next=nullptr;
+            j->next=iNext;
+            i->next=j;
+            
+            i=iNext;
+            j=jNext;
+        }
         
         
     }
